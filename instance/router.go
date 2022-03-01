@@ -522,11 +522,24 @@ func (in *Instance) router() *discord.MessageRouter {
 	if in.Features.AutoGift.Enable &&
 		in.Master != nil &&
 		in != in.Master {
+		
+		// When item amount and id is obtained, start trade
 		rtr.NewRoute().
 			Channel(in.ChannelID).
 			Author(DMID).
 			HasEmbeds(true).
 			Handler(in.gift)
+
+		// Dank Memer replies to and references the original message that created the trade, which can be used to differentiate between
+		// the sender and recipient
+
+		// Confirm Trade Requests recieved
+		rtr.NewRoute().
+			Author(DMID).
+			HasEmbeds(true).
+			Mentions(in.Client.User.ID).
+			EmbedContains("Continue trade?").
+			Handler(in.confirmTrade)
 	}
 
 	// Auto-tidepod

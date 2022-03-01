@@ -13,6 +13,7 @@ import (
 	"github.com/dankgrinder/dankgrinder/instance/scheduler"
 )
 
+// Start the trade with master
 func (in *Instance) gift(msg discord.Message) {
 	trigger := in.sdlr.AwaitResumeTrigger()
 	if trigger == nil || !strings.Contains(trigger.Value, shopBaseCmdValue) {
@@ -33,7 +34,18 @@ func (in *Instance) gift(msg discord.Message) {
 	// the scheduler has to be awaiting resume. AwaitResumeTrigger returns "" if
 	// the scheduler isn't awaiting resume which causes this function to return.
 	in.sdlr.ResumeWithCommand(&scheduler.Command{
-		Value: giftCmdValue(amount, item, in.Master.Client.User.ID),
-		Log:   "gifting items",
+		// We now use trade command to gift items 
+		Value: tradeCmdValue(amount, item, in.Master.Client.User.ID),
+		Log:   "gifting items - sending trade request",
+	})
+}
+
+// auto confirm the trade 
+func (in *Instance) confirmTradeSender(msg discord.Message) {
+	in.sdlr.ResumeWithCommandOrPrioritySchedule(&scheduler.Command{
+		Actionrow:   1,
+		Button:      2,
+		Message:     msg,
+		Log:         "gifting items - accepting trade request"
 	})
 }

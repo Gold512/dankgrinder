@@ -56,7 +56,7 @@ func shopCmdValue(item string) string {
 	return fmt.Sprintf("%v %v", shopBaseCmdValue, item)
 }
 
-func giftCmdValue(amount, item, id string) string {
+func tradeCmdValue(amount, item, id string) string {
 	return fmt.Sprintf("%v %v %v <@%v>", giftBaseCmdValue, amount, item, id)
 }
 
