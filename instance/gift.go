@@ -15,10 +15,10 @@ import (
 
 func (in *Instance) gift(msg discord.Message) {
 	trigger := in.sdlr.AwaitResumeTrigger()
-  
-  // increment items iterated
-  in.iteratedItems++
-  
+	
+	// increment items iterated
+	in.iteratedItems++
+	
 	if trigger == nil || !strings.Contains(trigger.Value, shopBaseCmdValue) {
 		return
 	}
@@ -37,20 +37,19 @@ func (in *Instance) gift(msg discord.Message) {
 		in.sdlr.Resume()
 		return
 	}
-  
+
 	amount := strings.Replace(exp.gift.FindStringSubmatch(msg.Embeds[0].Title)[1], ",", "", -1)
 	item := exp.shop.FindStringSubmatch(trigger.Value)[1]
-  
-  if amount == "0" {
+
+	if amount == "0" {
 		in.sdlr.Resume()
 		return
 	}
-  
-	giftChainEnd := in.iteratedItems == in.totalTradeItems
 
+	giftChainEnd := in.iteratedItems == in.totalTradeItems
 	in.tradeList += tradeItemListValue(amount, item)
-  
-  // store amount of items in current item list 
+
+  	// store amount of items in current item list 
 	in.currentTradeItems++
 
 	// If less then max amount of items and not at the end of gift chain wait until
@@ -62,7 +61,7 @@ func (in *Instance) gift(msg discord.Message) {
 	
 	if giftChainEnd {
 		in.iteratedItems = 0
-  }
+	}
 	
 	// ResumeWithCommandOrPrioritySchedule is not necessary in this case because
 	// the scheduler has to be awaiting resume. AwaitResumeTrigger returns "" if
@@ -72,9 +71,9 @@ func (in *Instance) gift(msg discord.Message) {
 		Log:   "gifting items - starting trade",
 		AwaitResume: true,
 	})
-  
-  in.tradeList = ""
-  in.currentTradeItems = 0
+	
+	in.tradeList = ""
+	in.currentTradeItems = 0
 }
 
 func (in *Instance) confirmTrade(msg discord.Message) {
