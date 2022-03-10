@@ -10,7 +10,7 @@ I just added some small changes as it was not being updated
 - New `max_items_per_trade` field in [features object](#features-object)
 
 ### bug fixes
-- Trivia now checks who dank memer replies to, preventing attempting on clicking another instance's trivia
+- Trivia now checks who dank memer replies to, preventing attempts to click another instance's trivia
 - Highlow now actually clicks `JACKPOT` when the hint is 50 instead of `high`
 
 # Dank Grinder [![](https://goreportcard.com/badge/github.com/dankgrinder/dankgrinder)](https://goreportcard.com/report/github.com/dankgrinder/dankgrinder) [![](https://img.shields.io/github/workflow/status/dankgrinder/dankgrinder/Go)](https://github.com/dankgrinder/dankgrinder/actions) ![](https://img.shields.io/github/license/dankgrinder/dankgrinder) [![](https://img.shields.io/github/v/release/dankgrinder/dankgrinder)](https://github.com/dankgrinder/dankgrinder/releases/latest) ![](https://img.shields.io/github/downloads/dankgrinder/dankgrinder/total)
