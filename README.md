@@ -24,6 +24,7 @@ Want to join the community or need support? [Join our Discord](https://discord.g
 </p>
 
 ## Features
+* Now uses pls trade to send coins and items 
 * Compatible with buttons introduced in Update
 * Can run many instances at once
 * Uses very little system resources
