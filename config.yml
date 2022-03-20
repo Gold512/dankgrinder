@@ -363,6 +363,7 @@ features:
   log_to_file: true
   verbose_log_to_stdout: false
   debug: false
+  max_items_per_trade: 5
 
 compatibility:
   allowed_searches:

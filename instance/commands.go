@@ -57,6 +57,7 @@ func shopCmdValue(item string) string {
 }
 
 func tradeCmdValue(itemlist, id string) string {
+	// itemlist will always have a trailing space so it is not necessary here
 	return fmt.Sprintf("%v %v<@%v>", tradeBaseCmdValue, itemlist, id)
 }
 

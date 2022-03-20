@@ -105,6 +105,7 @@ type Features struct {
 	VerboseLogToStdout bool            `yaml:"verbose_log_to_stdout"`
 	Debug              bool            `yaml:"debug"`
 	Scratch            Scratch         `yaml:"scratch"`
+	MaxItemsPerTrade   int             `yaml:"max_items_per_trade"`
 }
 type Scratch struct {
 	Enable   bool `yaml:"enable"`
