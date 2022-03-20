@@ -45,10 +45,8 @@ func (in *Instance) gift(msg discord.Message) {
 		in.sdlr.Resume()
 		return
 	}
-
-	giftChainEnd := in.iteratedItems == in.totalTradeItems
-
 	// append items to the list in the format for trade command 
+	giftChainEnd := in.iteratedItems == in.totalTradeItems
 	in.tradeList += tradeItemListValue(amount, item)
 
   	// store amount of items in current item list 
