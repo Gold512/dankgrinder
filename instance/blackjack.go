@@ -123,5 +123,8 @@ func (in *Instance) blackjackEnd(msg discord.Message) {
 		in.Logger.Errorf("error while reading balance: %v", err)
 		return
 	}
-	in.updateBalance(balance)
+
+	networth := netWorth[in.Client.User.Username]
+	// don't update networth here, will be inaccurate
+	in.updateBalance(balance, networth)
 }

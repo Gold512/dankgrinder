@@ -25,16 +25,27 @@ func (in *Instance) balanceCheck(msg discord.Message) {
 	if !exp.bal.Match([]byte(msg.Embeds[0].Description)) {
 		return
 	}
-	balstr := strings.Replace(exp.bal.FindStringSubmatch(msg.Embeds[0].Description)[1], ",", "", -1)
+
+	match := exp.bal.FindStringSubmatch(msg.Embeds[0].Description)
+
+	balstr := strings.Replace(match[1], ",", "", -1)
 	balance, err := strconv.Atoi(balstr)
 	if err != nil {
 		in.Logger.Errorf("error while reading balance: %v", err)
 		return
 	}
-	in.updateBalance(balance)
+	
+	netstr := strings.Replace(match[2], ",", "", -1)
+	networth, err := strconv.Atoi(netstr)
+	if err != nil {
+		in.Logger.Errorf("error while reading net worth: %v", err)
+		return
+	}
+	
+	in.updateBalance(balance, networth)
 }
 
-func (in *Instance) updateBalance(balance int) {
+func (in *Instance) updateBalance(balance, networth int) {
 	if balance > in.Features.AutoShare.MaximumBalance &&
 		in.Features.AutoShare.Enable &&
 		in.Master != nil &&
@@ -52,21 +63,31 @@ func (in *Instance) updateBalance(balance int) {
 	in.balance = balance
 	in.lastBalanceUpdate = time.Now()
 	in.Logger.Infof(
-		"current wallet balance: %v coins",
+		"current wallet balance: %v coins, current net worth: %v coins",
 		numFmt.Sprintf("%d", balance),
+		numFmt.Sprintf("%d", networth),
 	)
+
+	
 
 	if in.startingTime.IsZero() {
 		in.initialBalance = balance
+		netWorth[in.Client.User.Username] = networth
 		in.startingTime = time.Now()
 		return
 	}
 
 	inc := balance - in.initialBalance
-	per := time.Now().Sub(in.startingTime)
+	netInc := networth - netWorth[in.Client.User.Username]
+	per := time.Since(in.startingTime)
 	hourlyInc := int(math.Round(float64(inc) / per.Hours()))
+	hourlyNetInc := int(math.Round(float64(netInc) / per.Hours()))
 	in.Logger.Infof(
-		"average income: %v coins/h",
+		"average income: %v coins/h, %v net worth/h",
 		numFmt.Sprintf("%d", hourlyInc),
+		numFmt.Sprintf("%d", hourlyNetInc),
 	)
+	
+	// update networth dictionary
+	netWorth[in.Client.User.Username] = networth
 }

@@ -51,7 +51,7 @@ var exp = struct {
 	search:            regexp.MustCompile(`Pick from the list below and type the name in chat\.\s\x60(.+)\x60,\s\x60(.+)\x60,\s\x60(.+)\x60`),
 	huntEvent:         regexp.MustCompile(`Dodge the Fireball\n(\s*)+<:Dragon:861390869696741396>\n(\s*)<:FireBall:883714770748964864>\n(\s*):levitate:`),
 	hl:                regexp.MustCompile(`I just chose a secret number between 1 and 100.\nIs the secret number \*higher\* or \*lower\* than \*\*(.+)\*\*.`),
-	bal:               regexp.MustCompile(`\*\*Wallet\*\*: \x60?⏣?\s?([0-9,]+)\x60?`),
+	bal:               regexp.MustCompile(`(?s)\*\*Wallet\*\*: \x60?⏣?\s?([0-9,]+)\x60?.+?\*\*Net\*\*: \x60?⏣?\s?([0-9,]+)\x60?`),
 	event:             regexp.MustCompile(`Attack the boss by clicking \x60(.+)\x60`),
 	gift:              regexp.MustCompile(`[a-zA-Z\s]* \(([0-9,]+) owned\)`),
 	shop:              regexp.MustCompile(`pls shop ([a-zA-Z\s]+)`),
@@ -83,6 +83,7 @@ var exp = struct {
 }
 
 var numFmt = message.NewPrinter(language.English)
+var netWorth = make(map[string]int)
 
 func (in *Instance) pm(msg discord.Message) {
 	i := rand.Intn(5)
