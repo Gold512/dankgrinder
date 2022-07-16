@@ -1,3 +1,5 @@
+## [![Run on Repl.it](https://repl.it/badge/github/Clumsy-Assassin/dankgrinder)](https://repl.it/github/Clumsy-Assassin/dankgrinder)
+
 ## Credits
 forked from [V4NSH4J/dankgrinder](https://github.com/V4NSH4J/dankgrinder)
 
