@@ -204,6 +204,7 @@ Name | Type | Description
 ---- | ---- | ----
 `max_items` | integer | Maximum amount of items per trade
 `delay` | integer | Minimum amount of time between accepting trades for masters in milliseconds (to reduce ratelimits) 
+`always_accept` | bool | Whether or not to always accept trade regardless of who sent it (only in the selected channel)
 
 ### Gifting & Sharing confirmations update 
 Run a custom command "pls settings confirmations false" on your alts for gifting and sharing to function properly!

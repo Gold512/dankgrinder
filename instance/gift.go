@@ -167,6 +167,15 @@ func (in *Instance) confirmTradeAsMaster(msg discord.Message) {
 	in.sdlr.Resume()
 }
 
+func (in *Instance) confirmTradeUnconditionally(msg discord.Message) {
+	in.sdlr.PrioritySchedule(&scheduler.Command{
+		Actionrow: 1,
+		Button: 2,
+		Message: msg,
+		Log: "Accepting trade",
+	})
+}
+
 func (in *Instance) shareWithTax(msg discord.Message) {
 	match := exp.insufficientCoins.FindStringSubmatch(msg.Content)
 

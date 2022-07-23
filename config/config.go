@@ -155,8 +155,9 @@ type AutoGift struct {
 }
 
 type Trade struct {
-	MaxItems  int     `yaml:"max_items"`
-	Delay     int     `yaml:"delay"`
+	MaxItems     int  `yaml:"max_items"`
+	Delay        int  `yaml:"delay"`
+	AlwaysAccept bool `yaml:"always_accept"`
 }
 
 type CustomCommand struct {
