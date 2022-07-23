@@ -70,17 +70,39 @@ func (in *Instance) gift(msg discord.Message) {
 		in.iteratedItems = 0
 	}
 	
-	// ResumeWithCommandOrPrioritySchedule is not necessary in this case because
-	// the scheduler has to be awaiting resume. AwaitResumeTrigger returns "" if
-	// the scheduler isn't awaiting resume which causes this function to return.
-	in.sdlr.ResumeWithCommand(&scheduler.Command{
-		Value: tradeCmdValue(in.tradeList, in.Master.Client.User.ID),
-		Log:   "gifting items - starting trade",
-		AwaitResume: true,
-	})
+	f := func() {
+		// Update time since last trade was sent
+		in.lastTradeTime = time.Now()
+
+		// Send the trade 
+		in.sdlr.ResumeWithCommand(&scheduler.Command{
+			Value: tradeCmdValue(in.tradeList, in.Master.Client.User.ID),
+			Log:   "gifting items - starting trade",
+			AwaitResume: true,
+		})
+
+		in.tradeList = ""
+		in.currentTradeItems = 0
+	}
+
+	// Check if time elapsed is greater than the cooldown of trade
+	cd := int64(in.Compat.Cooldown.Trade) * 1000
+
+	// Amount of time between trades
+	elapsedTime := int64(time.Since(in.Master.lastTradeTime))
+	// convert to ms
+	elapsedTime /= (int64(time.Millisecond)/int64(time.Nanosecond))
+
+	if elapsedTime < cd {
+		// Wait until cooldown is completed
+		// Then send the command
+		remainingTime := time.Duration(cd - elapsedTime) * time.Millisecond
+		time.AfterFunc(remainingTime, f)
+		return
+	}
 	
-	in.tradeList = ""
-	in.currentTradeItems = 0
+	// If cooldown has passed, just send the command 
+	f()
 }
 
 func (in *Instance) confirmTrade(msg discord.Message) {

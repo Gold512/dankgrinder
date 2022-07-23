@@ -46,7 +46,8 @@ var exp = struct {
 	workEventEmoji,
 	shopEvent,
 	event,
-	insufficientCoins *regexp.Regexp
+	insufficientCoins,
+	death                  *regexp.Regexp
 }{
 	search:            regexp.MustCompile(`Pick from the list below and type the name in chat\.\s\x60(.+)\x60,\s\x60(.+)\x60,\s\x60(.+)\x60`),
 	huntEvent:         regexp.MustCompile(`Dodge the Fireball\n(\s*)+<:Dragon:861390869696741396>\n(\s*)<:FireBall:883714770748964864>\n(\s*):levitate:`),
@@ -80,6 +81,7 @@ var exp = struct {
 	fishCatch2:        regexp.MustCompile(`Catch the fish!\n<:(.+):[\d]+>\n:bucket::bucket::bucket:`),
 	shopEvent:         regexp.MustCompile(`What is the \*\*(.+)\*\* of this item?`),
 	insufficientCoins: regexp.MustCompile(`You have ([\d,]+) coins, you can't give them ([\d,]+) \(\+ ⏣ ([\d,]+) tax\)`),
+	death:             regexp.MustCompile(`(?:Your lifesaver protected you|You died)`),
 }
 
 var numFmt = message.NewPrinter(language.English)
@@ -617,6 +619,16 @@ func (in *Instance) router() *discord.MessageRouter {
 			HasEmbeds(true).
 			EventType(discord.EventNameMessageUpdate).
 			Handler(in.blackjackEnd)
+	}
+
+	// auto lifesaver
+	if in.Features.Lifesaver.Enable {
+		rtr.NewRoute().
+			IsDM(true).
+			Author(DMID).
+			HasEmbeds(true).
+			EmbedMatchesExp(exp.death).
+			Handler(in.abLifesaver)
 	}
 
 	return rtr

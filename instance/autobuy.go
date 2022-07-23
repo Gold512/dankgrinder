@@ -70,3 +70,14 @@ func (in *Instance) abTidepod(_ discord.Message) {
 		AwaitResume: true,
 	})
 }
+
+func (in *Instance) abLifesaver(_ discord.Message) {
+	trigger := in.sdlr.AwaitResumeTrigger()
+	if trigger == nil || trigger.Value != tidepodCmdValue {
+		return
+	}
+	in.sdlr.Schedule(&scheduler.Command{
+		Value: buyCmdValue("1", "lifesaver"),
+		Log:   "no lifesaver, buying a new one",
+	})
+}

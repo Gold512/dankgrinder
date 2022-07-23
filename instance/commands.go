@@ -203,7 +203,7 @@ func (in *Instance) newAutoGiftChain() *scheduler.Command {
 	for _, item := range in.Features.AutoGift.Items {
 		cmds = append(cmds, &scheduler.Command{
 			Value:       shopCmdValue(item),
-			Interval:    time.Duration(in.Compat.Cooldown.Gift) * time.Second,
+			Interval:    time.Duration(in.Compat.Cooldown.Shop) * time.Second,
 			AwaitResume: true,
 		})
 	}

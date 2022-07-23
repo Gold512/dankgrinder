@@ -278,7 +278,8 @@ Name | Type | Description
 `hunt` | integer | The cooldown of the hunt command in seconds, set a few seconds higher to account for network delay
 `blackjack` | integer | The cooldown of the blackjack command in seconds, set a few seconds higher to account for network delay
 `sell` | integer | The cooldown of the sell command in seconds, set a few seconds higher to account for network delay
-`gift` | integer | The cooldown of the gift command in seconds, set a few seconds higher to account for network delay
+`trade` | integer | The cooldown of the trade command in seconds, set a few seconds higher to account for network delay
+`shop` | integer | The cooldown of the shop command in seconds (for checking amount of an item owned), set a few seconds higher to account for network delay
 `share` | integer | The cooldown of the share command in seconds, set a few seconds higher to account for network delay
 `dig` | integer | The cooldown of the dig command in seconds, set a few seconds higher to account for network delay
 `work` | integer | The cooldown of the work command in seconds, set a few seconds higher to account for network delay

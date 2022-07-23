@@ -137,6 +137,16 @@ func (rt *MessageRoute) RespondsTo(id string) *MessageRoute {
 	return rt
 }
 
+func (rt *MessageRoute) IsDM(b bool) *MessageRoute {
+	rt.conds = append(rt.conds, func(msg Message, _ string) bool {
+		if b {
+			return msg.Type == 1
+		}
+		return msg.Type != 1
+	})
+	return rt
+}
+
 func (rt *MessageRoute) Handler(h func(msg Message)) {
 	rt.handler = h
 }
